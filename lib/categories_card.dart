@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:news/models/categories_model.dart';
 import 'package:news/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:toggle_switch/toggle_switch.dart';
 
 class CategoriesCard extends StatelessWidget {
    CategoriesCard({super.key, required this.categoriesModel,this.left, this.right});

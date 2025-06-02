@@ -4,7 +4,6 @@ import 'package:news/homedrawer.dart';
 import 'package:news/models/categories_model.dart';
 import 'package:news/news/news_view.dart';
 import 'package:news/providers/settings_provider.dart';
-import 'package:news/theme.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -63,7 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
             
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Good MorningHere \nis Some News For You",style: TextStyle(
+              Text("Good Morning Here \nis Some News For You",style: TextStyle(
                 fontSize: 24,
                 color: settingsProvider.isDark? Colors.white : Colors.black,
                 
