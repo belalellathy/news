@@ -5,7 +5,7 @@ import 'package:news/theme.dart';
 import 'package:provider/provider.dart';
 
 class Homedrawer extends StatelessWidget {
-  Homedrawer({required this.nothome,required this.onTap});
+  Homedrawer({super.key, required this.nothome,required this.onTap});
 bool nothome;
 VoidCallback onTap;
 
@@ -33,7 +33,7 @@ VoidCallback onTap;
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height *0.7,
+            height: MediaQuery.of(context).size.height *0.8,
             decoration: BoxDecoration(
               color: settingsProvider.isDark?apptheme.black:apptheme.white
             ),

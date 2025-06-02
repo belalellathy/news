@@ -5,11 +5,11 @@ import 'package:provider/provider.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class CategoriesCard extends StatelessWidget {
-   CategoriesCard({required this.categoriesModel,this.left, this.right});
+   CategoriesCard({super.key, required this.categoriesModel,this.left, this.right});
 CategoriesModel categoriesModel;
 
-double?left=null;
-double?right=null;
+double?left;
+double?right;
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);

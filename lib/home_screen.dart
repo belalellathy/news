@@ -8,7 +8,7 @@ import 'package:news/theme.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
-   HomeScreen({super.key});
+   const HomeScreen({super.key});
   
 
   @override

@@ -4,7 +4,7 @@ import 'package:news/news/news_item.dart';
 import 'package:news/news/tab_item.dart';
 
 class NewsView extends StatefulWidget {
-   NewsView({this.categoryid});
+   NewsView({super.key, this.categoryid});
 String? categoryid;
 
   @override
@@ -31,8 +31,9 @@ class _NewsViewState extends State<NewsView> {
             indicatorColor: Colors.white,
             dividerColor: Colors.transparent,
             onTap: (index) {
-              if(selectedIndex==index)return;
-              else {
+              if(selectedIndex==index) {
+                return;
+              } else {
                 selectedIndex = index;
                 setState(() {
                   

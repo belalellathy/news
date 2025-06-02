@@ -39,7 +39,7 @@ class NewsItem extends StatelessWidget {
               fontSize: 14,
               fontWeight: FontWeight.w300
             ),),
-            Text("${timeago.format(fifteenAgo)}",style: TextStyle(
+            Text(timeago.format(fifteenAgo),style: TextStyle(
               color: settingsProvider.isDark? apptheme.white:apptheme.black,
               fontSize: 14,
               fontWeight: FontWeight.w300

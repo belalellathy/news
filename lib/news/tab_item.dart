@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:news/models/source_model.dart';
 
 class TabItem extends StatelessWidget {
-   TabItem({required this.source,required this.isSelected});
+   TabItem({super.key, required this.source,required this.isSelected});
 SourceModel source;
 bool isSelected = false;
   @override
