@@ -4,11 +4,16 @@ import 'package:news/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesCard extends StatelessWidget {
-   CategoriesCard({super.key, required this.categoriesModel,this.left, this.right});
-CategoriesModel categoriesModel;
+  CategoriesCard({
+    super.key,
+    required this.categoriesModel,
+    this.left,
+    this.right,
+  });
+  CategoriesModel categoriesModel;
 
-double?left;
-double?right;
+  double? left;
+  double? right;
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
@@ -16,18 +21,14 @@ double?right;
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(24),
-          child: Image.asset(
-            categoriesModel
-            .image,
-            
-          ),
+          child: Image.asset(categoriesModel.image),
         ),
-        
+
         Positioned(
-       bottom: 4,
+          bottom: 4,
           right: right,
           left: left,
-          
+
           child: Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
@@ -35,13 +36,14 @@ double?right;
               borderRadius: BorderRadius.circular(84),
             ),
             child: Row(
-              
               children: [
-                
-                Text("View All",
+                Text(
+                  "View All",
                   style: TextStyle(
-                    color: settingsProvider.isDark ? Colors.white : Colors.black,
-                   
+                    color: settingsProvider.isDark
+                        ? Colors.white
+                        : Colors.black,
+
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
@@ -50,16 +52,21 @@ double?right;
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: settingsProvider.isDark? Colors.black : Colors.white,
+                    color: settingsProvider.isDark
+                        ? Colors.black
+                        : Colors.white,
                     borderRadius: BorderRadius.circular(50),
                   ),
-                  child: Icon(Icons.arrow_forward_ios,
-                    color: settingsProvider.isDark ? Colors.white : Colors.black,
+                  child: Icon(
+                    Icons.arrow_forward_ios,
+                    color: settingsProvider.isDark
+                        ? Colors.white
+                        : Colors.black,
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ),
       ],
     );

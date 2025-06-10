@@ -4,73 +4,82 @@ import 'package:news/theme.dart';
 import 'package:provider/provider.dart';
 
 class Homedrawer extends StatelessWidget {
-  Homedrawer({super.key, required this.nothome,required this.onTap});
-bool nothome;
-VoidCallback onTap;
+  Homedrawer({super.key, required this.nothome, required this.onTap});
+  bool nothome;
+  VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return SizedBox(
-      width: MediaQuery.of(context).size.width*0.5,
+      width: MediaQuery.of(context).size.width * 0.5,
       child: Column(
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),
-          height: MediaQuery.of(context).size.height*0.2,
+            height: MediaQuery.of(context).size.height * 0.2,
             decoration: BoxDecoration(
-              color: settingsProvider.isDark?apptheme.white:apptheme.black
+              color: settingsProvider.isDark ? apptheme.white : apptheme.black,
             ),
             child: Center(
-              
-              child: Text("News App",style:TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: settingsProvider.isDark?apptheme.black:apptheme.white
-                    
-              ),),
+              child: Text(
+                "News App",
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w700,
+                  color: settingsProvider.isDark
+                      ? apptheme.black
+                      : apptheme.white,
+                ),
+              ),
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height *0.8,
+            height: MediaQuery.of(context).size.height * 0.745,
             decoration: BoxDecoration(
-              color: settingsProvider.isDark?apptheme.black:apptheme.white
+              color: settingsProvider.isDark ? apptheme.black : apptheme.white,
             ),
-            child: Column(mainAxisAlignment: MainAxisAlignment.start,
-            
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+
               children: [
-                SizedBox(height: 10,),
+                SizedBox(height: 10),
                 InkWell(
-                  onTap: (){
-                    if(nothome==false){
+                  onTap: () {
+                    if (nothome == false) {
                       Navigator.of(context).pop();
                       return;
-                    }
-                    else{
+                    } else {
                       onTap();
-                      nothome=true;
+                      nothome = true;
                       Navigator.of(context).pop();
                     }
-                    
-                  
-
                   },
                   child: Row(
                     children: [
-                      Icon(Icons.home,color: settingsProvider.isDark?apptheme.white:apptheme.black,),
-                      SizedBox(width: 12,),
-                      Text("Go to Home",style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: settingsProvider.isDark?apptheme.white:apptheme.black
-                      ),)
-                  
+                      Icon(
+                        Icons.home,
+                        color: settingsProvider.isDark
+                            ? apptheme.white
+                            : apptheme.black,
+                      ),
+                      SizedBox(width: 12),
+                      Text(
+                        "Go to Home",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: settingsProvider.isDark
+                              ? apptheme.white
+                              : apptheme.black,
+                        ),
+                      ),
                     ],
                   ),
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
     );

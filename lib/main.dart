@@ -5,27 +5,30 @@ import 'package:news/theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (context) => SettingsProvider()),
-  ], child:    MainApp()));
-  
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => SettingsProvider()),
+      ],
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
-   const MainApp({super.key});
+  const MainApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: "home",
-      routes: {
-        "home": (context) => HomeScreen(),
-       
-      },
+      routes: {"home": (context) => HomeScreen()},
       theme: apptheme.lightTheme,
       darkTheme: apptheme.darkTheme,
-      themeMode: Provider.of<SettingsProvider>(context).themeMode // Use system theme mode
+      themeMode: Provider.of<SettingsProvider>(
+        context,
+      ).themeMode, // Use system theme mode
     );
   }
 }
