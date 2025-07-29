@@ -12,8 +12,10 @@ class NewsItem extends StatelessWidget {
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Container(
+     
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
+        color: settingsProvider.isDark ? apptheme.black : apptheme.white,
         border: Border.all(
           color: settingsProvider.isDark ? apptheme.white : apptheme.black,
           width: 2,
@@ -26,7 +28,7 @@ class NewsItem extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.network(
-              article.urlToImage??"https://upload.wikimedia.org/wikipedia/commons/6/65/No-Image-Placeholder.svg",
+              article.urlToImage??"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
               width: double.infinity,
               fit: BoxFit.fill,
               height: MediaQuery.of(context).size.height * 0.2,
@@ -41,6 +43,7 @@ class NewsItem extends StatelessWidget {
               color: settingsProvider.isDark ? apptheme.white : apptheme.black,
             ),
           ),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

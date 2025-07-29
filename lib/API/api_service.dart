@@ -19,9 +19,26 @@ class ApiService {
     "apiKey":APIConst.apiKey ,
     "sources": sourceid 
   },);
+  
   http.Response response= await http.get(uri);
   response.body;
   Map<String, dynamic> json = jsonDecode (response.body);
   return NewsResponse.fromJson(json);
 }
+
+
+
+
+static Future<NewsResponse> getnewsforsearch(String query,int page)async{
+    Uri uri= Uri.https(APIConst.baseUrl,APIConst.searchEndpoint, {
+      "apiKey":APIConst.apiKey ,
+      "q":query,
+      "pageSize":"20",
+      "page":"$page"
+
+    },);
+  http.Response response= await http.get(uri);
+  Map<String, dynamic> json = jsonDecode (response.body);
+  return NewsResponse.fromJson(json);
+  }
 }
