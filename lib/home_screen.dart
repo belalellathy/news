@@ -72,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: settingsProvider.isDark
                             ? (context, index) => InkWell(
                                 onTap: () {
-                                  print(
-                                    CategoriesModel.categoriesLight[index].id,
-                                  );
+                                  
                                   id =
                                       CategoriesModel.categoriesLight[index].id;
                                   name = CategoriesModel

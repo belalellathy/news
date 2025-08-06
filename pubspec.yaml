@@ -15,6 +15,7 @@ dependencies:
   provider: ^6.1.5
   timeago: ^3.7.1
   toggle_switch: ^2.3.0
+  url_launcher: ^6.3.2
 
 dev_dependencies:
   flutter_test:

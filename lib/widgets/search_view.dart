@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+
 import 'package:news/API/api_service.dart';
 import 'package:news/models/news_response/article.dart';
-import 'package:news/models/news_response/news_response.dart';
+
 import 'package:news/news/news_item.dart';
-import 'package:news/news/news_view.dart';
+
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 import 'package:news/providers/settings_provider.dart';
-import 'package:news/widgets/errorindicator.dart';
-import 'package:news/widgets/loadingindicator.dart';
 import 'package:provider/provider.dart';
 
 class SearchView extends StatefulWidget {
@@ -22,14 +21,23 @@ class _SearchViewState extends State<SearchView> {
   int _currentPage = 1;
 
   Future<List<Article>> _fetchPage(int pageKey) async {
-  final response = await ApiService.getnewsforsearch(_searchQuery,  pageKey);
-  return response.articles ?? [];
+    
+  if (_searchQuery.isNotEmpty) {
+    final response = await ApiService.getnewsforsearch(_searchQuery,  pageKey);
+
+      return response.articles ?? [];
+    // If the search query is empty, return an empty list
+   
+  }
+  else{return[];}
+ 
+  
 }
 
     late final PagingController<int, Article> _pagingController;
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = "B";
-  static const int _pageSize = 20;
+  String _searchQuery = "";
+
   
   
   @override
@@ -90,15 +98,20 @@ void initState() {
           Expanded(
             child: PagingListener(
               controller: _pagingController,
+            
               builder: (context, state, fetchNextPage) =>
                   PagedListView<int, Article>(
+                    
                 state: state,
                 fetchNextPage: fetchNextPage,
                 builderDelegate: PagedChildBuilderDelegate<Article>(
                   itemBuilder: (context, item, index) =>
                       NewsItem(article: item),
+                      
 
                   // Optional indicators:
+
+                  animateTransitions: true,
                   noItemsFoundIndicatorBuilder: (_) => Center(
                     child: Text("No articles found.",
                       style: TextStyle(

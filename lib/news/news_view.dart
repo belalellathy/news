@@ -62,7 +62,7 @@ class _NewsViewState extends State<NewsView> {
                 ).toList()
               ),
                         ),
-                        SizedBox(height: 16),
+                        
                         Expanded(
               child: FutureBuilder<NewsResponse>(
                 future: ApiService.getnews(sources[selectedIndex].id!),
@@ -70,6 +70,7 @@ class _NewsViewState extends State<NewsView> {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Loadingindicator();
                   } else if (snapshot.hasError || snapshot.data?.status !="ok" ) {
+                    
                     return Errorindicator();
                   } else {
                     List<Article> articles = snapshot.data?.articles ?? [];
