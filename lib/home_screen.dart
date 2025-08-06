@@ -16,7 +16,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late String id;
   late String name;
-  bool search = false;
   bool taped = false;
 
   @override
@@ -41,9 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                search = true;
+               Navigator.of(context).pushNamed("search");
                 setState(() {});
-                print(search);
+                
               },
             ),
           ],
@@ -73,9 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         itemBuilder: settingsProvider.isDark
                             ? (context, index) => InkWell(
                                 onTap: () {
-                                  print(
-                                    CategoriesModel.categoriesLight[index].id,
-                                  );
+                                  
                                   id =
                                       CategoriesModel.categoriesLight[index].id;
                                   name = CategoriesModel

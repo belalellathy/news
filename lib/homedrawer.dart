@@ -17,7 +17,7 @@ class Homedrawer extends StatelessWidget {
         children: [
           Container(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: MediaQuery.of(context).size.height * 0.145,
             decoration: BoxDecoration(
               color: settingsProvider.isDark ? apptheme.white : apptheme.black,
             ),

@@ -31,56 +31,61 @@ class _NewsViewState extends State<NewsView> {
             return Errorindicator();
           }else{
             List<Source>sources = snapshot.data?.sources??[];
-            return Column(
-        
-        children: [
-         
-          DefaultTabController(
-            length:sources.length,
-
-            child: TabBar(
-              tabAlignment: TabAlignment.start,
-      
-              isScrollable: true,
-              indicatorColor: Colors.white,
-              dividerColor: Colors.transparent,
-              onTap: (index) {
-                if (selectedIndex == index) {
-                  return;
-                } else {
-                  selectedIndex = index;
-                  setState(() {});
-                }
-              },
-              tabs: sources.map(
-                (source)=> TabItem(
-                source: source,
-                isSelected: selectedIndex==sources.indexOf(source),)
-              ).toList()
-            ),
-          ),
-          SizedBox(height: 16),
-          Expanded(
-            child: FutureBuilder<NewsResponse>(
-              future: ApiService.getnews(sources[selectedIndex].id!),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Loadingindicator();
-                } else if (snapshot.hasError || snapshot.data?.status !="ok" ) {
-                  return Errorindicator();
-                } else {
-                  List<Article> articles = snapshot.data?.articles ?? [];
-                  return ListView.separated(
-                    itemBuilder: (_, index) => NewsItem(article: articles[index]),
-                    separatorBuilder: (_, __) => SizedBox(height: 16),
-                    itemCount: articles.length,
-                  );
-                }
-              },
-            ),
-          ),
-        ],
-      );
+            return Container(
+              color: Theme.of(context).scaffoldBackgroundColor,
+              child: Column(
+                
+                      
+                      children: [
+                       
+                        DefaultTabController(
+              length:sources.length,
+              
+              child: TabBar(
+                tabAlignment: TabAlignment.start,
+                    
+                isScrollable: true,
+                indicatorColor: Colors.white,
+                dividerColor: Colors.transparent,
+                onTap: (index) {
+                  if (selectedIndex == index) {
+                    return;
+                  } else {
+                    selectedIndex = index;
+                    setState(() {});
+                  }
+                },
+                tabs: sources.map(
+                  (source)=> TabItem(
+                  source: source,
+                  isSelected: selectedIndex==sources.indexOf(source),)
+                ).toList()
+              ),
+                        ),
+                        
+                        Expanded(
+              child: FutureBuilder<NewsResponse>(
+                future: ApiService.getnews(sources[selectedIndex].id!),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Loadingindicator();
+                  } else if (snapshot.hasError || snapshot.data?.status !="ok" ) {
+                    
+                    return Errorindicator();
+                  } else {
+                    List<Article> articles = snapshot.data?.articles ?? [];
+                    return ListView.separated(
+                      itemBuilder: (_, index) => NewsItem(article: articles[index]),
+                      separatorBuilder: (_, __) => SizedBox(height: 16),
+                      itemCount: articles.length,
+                    );
+                  }
+                },
+              ),
+                        ),
+                      ],
+                    ),
+            );
           }
        }
     );
