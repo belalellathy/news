@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
-import 'package:news/API/api_service.dart';
-import 'package:news/models/news_response/article.dart';
 
-import 'package:news/news/news_item.dart';
+
+import 'package:news/news/data/models/news_response/article.dart';
+
+import 'package:news/news/view/widgets/news_item.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:news/news/view_model/news_view_model.dart';
 
-import 'package:news/providers/settings_provider.dart';
+import 'package:news/shared/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchView extends StatefulWidget {
@@ -21,13 +23,14 @@ class _SearchViewState extends State<SearchView> {
   int _currentPage = 1;
 
   Future<List<Article>> _fetchPage(int pageKey) async {
+
     
   if (_searchQuery.isNotEmpty) {
-    final response = await ApiService.getnewsforsearch(_searchQuery,  pageKey);
+    NewsViewModel newsViewModel = Provider.of<NewsViewModel>(context, listen: false);
+   await newsViewModel.getnewsforsearch(_searchQuery, pageKey);
 
-      return response.articles ?? [];
-    // If the search query is empty, return an empty list
-   
+      return newsViewModel.articles;
+
   }
   else{return[];}
  
@@ -74,6 +77,7 @@ void initState() {
         Provider.of<SettingsProvider>(context);
 
     return Scaffold(
+     
       body: Column(
         children: [
           Padding(
@@ -91,7 +95,7 @@ void initState() {
                 ),
               ),
               style: TextStyle(
-                color: settingsProvider.isDark ? Colors.white : Colors.black,
+                color: Colors.black,
               ),
             ),
           ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news/providers/settings_provider.dart';
-import 'package:news/theme.dart';
+import 'package:news/shared/providers/settings_provider.dart';
+import 'package:news/shared/theme.dart';
+import 'package:news/shared/widgets/themechange.dart';
 import 'package:provider/provider.dart';
 
 class Homedrawer extends StatelessWidget {
@@ -77,6 +78,30 @@ class Homedrawer extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: 10),
+                Divider(
+                  color: settingsProvider.isDark
+                      ? apptheme.white
+                      : apptheme.black,
+                ),
+                SizedBox(height: 10),
+                Column(
+              
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Theme",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: settingsProvider.isDark
+                            ? apptheme.white
+                            : apptheme.black,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Themechange()
+                  ],
+                )
               ],
             ),
           ),

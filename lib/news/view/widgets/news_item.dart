@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news/models/news_response/article.dart';
-import 'package:news/providers/settings_provider.dart';
-import 'package:news/theme.dart';
+import 'package:news/news/data/models/news_response/article.dart';
+import 'package:news/shared/providers/settings_provider.dart';
+import 'package:news/shared/theme.dart';
 import 'package:provider/provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 import 'package:url_launcher/url_launcher.dart';
@@ -16,7 +16,6 @@ class NewsItem extends StatelessWidget {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Container(
       margin: EdgeInsets.symmetric(vertical: 10),
-     
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: settingsProvider.isDark ? apptheme.black : apptheme.white,
@@ -46,6 +45,14 @@ class NewsItem extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(8),
               child: Image.network(
+                errorBuilder: (_, __, ___) {
+                  return Image.network(
+                    "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
+                    width: double.infinity,
+                    fit: BoxFit.fill,
+                    height: MediaQuery.of(context).size.height * 0.2,
+                  );
+                },
                 article.urlToImage??"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                 width: double.infinity,
                 fit: BoxFit.fill,

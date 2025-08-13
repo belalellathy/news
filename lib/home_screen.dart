@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:news/categories_card.dart';
 import 'package:news/homedrawer.dart';
 import 'package:news/models/categories_model.dart';
-import 'package:news/news/news_view.dart';
-import 'package:news/providers/settings_provider.dart';
+import 'package:news/news/view/widgets/news_view.dart';
+import 'package:news/shared/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
