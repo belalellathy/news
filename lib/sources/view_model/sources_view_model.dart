@@ -12,13 +12,18 @@ SourceDataSource sourceDataSource = SourceDataSource();
   Future<void> fetchSources(String categoryId) async {
     isLoading = true;
     try{
+    
     SourcesResponse sourcesResponse= await sourceDataSource.getsources(categoryId);
-    sources = sourcesResponse.sources??[];
+    if(sourcesResponse.status=="ok")
+    {sources = sourcesResponse.sources??[];
     isLoading = false;
+    }else{
+      error=true; isLoading = false;
+    }
     notifyListeners();}
     catch(e){
       error = true;
-      notifyListeners();
+      
     }
   }
 }

@@ -14,6 +14,7 @@ import 'package:provider/provider.dart';
 class NewsView extends StatefulWidget {
   const NewsView({super.key, required this.categoryid});
   final String categoryid;
+  
 
   @override
   State<NewsView> createState() => _NewsViewState();
@@ -22,23 +23,26 @@ class NewsView extends StatefulWidget {
 class _NewsViewState extends State<NewsView> {
   SourcesViewModel sourcesViewModel = SourcesViewModel();
   
-
+int count = 0;
   int selectedIndex = 0;
 
   @override
   void initState() {
     super.initState();
     sourcesViewModel.fetchSources(widget.categoryid);
-
+   // NewsViewModel newsModel = Provider.of<NewsViewModel>(context, listen: false);
+    
     
   }
 
   @override
   Widget build(BuildContext context) {
-    NewsViewModel newsModel = Provider.of<NewsViewModel>(context,listen: false);
+    //NewsViewModel newsModel = Provider.of<NewsViewModel>(context,listen: false);
+    //print(newsModel.articles.length);
     
     return ChangeNotifierProvider(
       create: (_) => sourcesViewModel,
+      
       child: Consumer<SourcesViewModel>(
         builder: (_, sourcesViewModel, __) {
           // Assuming you have sources list in your view model
@@ -52,12 +56,11 @@ class _NewsViewState extends State<NewsView> {
           }
           else{
              List<Source> sources = sourcesViewModel.sources;
-          
-          
-            newsModel.getnews(sources[selectedIndex].id!);
-
-
-          return Container(
+             
+             //newsModel.getnews(sources[selectedIndex].id!);
+           // 
+            
+            return Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
               children: [
@@ -70,8 +73,10 @@ class _NewsViewState extends State<NewsView> {
                     dividerColor: Colors.transparent,
                     onTap: (index) {
                       if (selectedIndex != index) {
-                         
-
+                       
+                       // newsModel.getnews(sources[index].id!);
+                       count=0;
+    
                         setState(() {
                           selectedIndex = index;
                         });
@@ -92,34 +97,46 @@ class _NewsViewState extends State<NewsView> {
                 
                   ),
                 ),
-                Expanded(
-                  child: Consumer<NewsViewModel>(
-                    
-                    builder: (context, newsmodel, child) {
+                 Expanded(
+                child: Consumer<NewsViewModel>(
+                  
+                  
+                  builder: (context, newsModel, child) {
                       
-                   
-                      if (newsmodel.isLoading) {
-                        return Loadingindicator();
-                      } else if (newsmodel.errorMessage != null) {
-                        return Errorindicator();
-                      } else {
-                        
-                        List<Article> articles =
-                            newsModel.articles ;
-                        return ListView.builder(
-                          itemBuilder: (_, index) =>
-                              NewsItem(article: articles[index]),
-                          itemCount: articles.length,
-                        );
-                      } 
-                    },
-                  ),
-                ),
-              ],
+                 
+                    if (newsModel.isLoading) {
+
+                      return Loadingindicator();
+                    } else if (newsModel.errorMessage != null) {
+                      return Errorindicator();
+                    } else {
+
+                     if(count==0)
+                     { newsModel.getnews(sourcesViewModel.sources[selectedIndex].id!);
+                     
+                     count++;
+                     
+                     }
+                       
+                    
+                      List<Article> articles =
+                          newsModel.articles ;
+                      return ListView.builder(
+                        itemBuilder: (_, index) =>
+                            NewsItem(article: articles[index]),
+                        itemCount: articles.length,
+                      );
+                    } 
+                  },
+                )
+              )
+        
+               ],
             ),
           );}
         },
       ),
-    );
+    )
+    ;
   }
 }

@@ -28,13 +28,14 @@ class _SearchViewState extends State<SearchView> {
   if (_searchQuery.isNotEmpty) {
     NewsViewModel newsViewModel = Provider.of<NewsViewModel>(context, listen: false);
    await newsViewModel.getnewsforsearch(_searchQuery, pageKey);
-
-      return newsViewModel.articles;
+   if(newsViewModel.errorMessage!=null){
+     throw Exception(newsViewModel.errorMessage);
+     }else{return newsViewModel.articles;}
 
   }
   else{return[];}
- 
-  
+
+
 }
 
     late final PagingController<int, Article> _pagingController;
