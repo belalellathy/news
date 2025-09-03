@@ -14,17 +14,25 @@ class NewsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isTablet = screenWidth > 600;
+    final isLargeScreen = screenWidth > 900;
+    
     return Container(
-      margin: EdgeInsets.symmetric(vertical: 10),
-      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.symmetric(
+        vertical: isTablet ? 15 : 10,
+        horizontal: isTablet ? 8 : 0,
+      ),
+      padding: EdgeInsets.all(isTablet ? 16 : 10),
       decoration: BoxDecoration(
         color: settingsProvider.isDark ? apptheme.black : apptheme.white,
         border: Border.all(
           color: settingsProvider.isDark ? apptheme.white : apptheme.black,
-          width: 2,
+          width: isTablet ? 3 : 2,
         ),
     
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(isTablet ? 20 : 16),
       ),
       child: InkWell(
         onTap: () async {
@@ -43,32 +51,32 @@ class NewsItem extends StatelessWidget {
         child: Column(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.circular(8),
+              borderRadius: BorderRadius.circular(isTablet ? 12 : 8),
               child: Image.network(
                 errorBuilder: (_, __, ___) {
                   return Image.network(
                     "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                     width: double.infinity,
                     fit: BoxFit.fill,
-                    height: MediaQuery.of(context).size.height * 0.2,
+                    height: isLargeScreen ? screenHeight * 0.25 : isTablet ? screenHeight * 0.22 : screenHeight * 0.2,
                   );
                 },
                 article.urlToImage??"https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg",
                 width: double.infinity,
                 fit: BoxFit.fill,
-                height: MediaQuery.of(context).size.height * 0.2,
+                height: isLargeScreen ? screenHeight * 0.25 : isTablet ? screenHeight * 0.22 : screenHeight * 0.2,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: isTablet ? 15 : 10),
             Text(
               article.description??" ",
               style: TextStyle(
-                fontSize: 16,
+                fontSize: isLargeScreen ? 20 : isTablet ? 18 : 16,
                 fontWeight: FontWeight.w700,
                 color: settingsProvider.isDark ? apptheme.white : apptheme.black,
               ),
             ),
-            SizedBox(height: 10),
+            SizedBox(height: isTablet ? 15 : 10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -78,7 +86,7 @@ class NewsItem extends StatelessWidget {
                     color: settingsProvider.isDark
                         ? apptheme.white
                         : apptheme.black,
-                    fontSize: 14,
+                    fontSize: isTablet ? 16 : 14,
                     fontWeight: FontWeight.w300,
                   ),
                 ),
@@ -88,7 +96,7 @@ class NewsItem extends StatelessWidget {
                     color: settingsProvider.isDark
                         ? apptheme.white
                         : apptheme.black,
-                    fontSize: 14,
+                    fontSize: isTablet ? 16 : 14,
                     fontWeight: FontWeight.w300,
                   ),
                 ),

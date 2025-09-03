@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:news/news/data/models/news_response/article.dart';
 import 'package:news/news/data/models/news_response/news_response.dart';
 import 'package:news/news/view_model/news_view_model.dart';
+import 'package:news/shared/providers/settings_provider.dart';
 import 'package:news/sources/data/models/sources_response/source.dart';
 import 'package:news/news/view/widgets/news_item.dart';
 import 'package:news/sources/view/widgets/tab_item.dart';
@@ -69,7 +70,7 @@ int count = 0;
                   child: TabBar(
                     tabAlignment: TabAlignment.start,
                     isScrollable: true,
-                    indicatorColor: Colors.white,
+                    indicatorColor: Provider.of<SettingsProvider>(context).isDark?Colors.white:Colors.black,
                     dividerColor: Colors.transparent,
                     onTap: (index) {
                       if (selectedIndex != index) {

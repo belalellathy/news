@@ -21,6 +21,10 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isTablet = screenWidth > 600;
+    final isLargeScreen = screenWidth > 900;
+    
     return SafeArea(
       child: Scaffold(
         drawer: Homedrawer(
@@ -51,20 +55,24 @@ class _HomeScreenState extends State<HomeScreen> {
         body: taped == true
             ? NewsView(categoryid: id,)
             : Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                padding: EdgeInsets.symmetric(
+                  horizontal: isTablet ? 16.0 : 8.0,
+                  vertical: isTablet ? 8.0 : 0,
+                ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       "Good Morning Here \nis Some News For You",
                       style: TextStyle(
-                        fontSize: 24,
+                        fontSize: isLargeScreen ? 32 : isTablet ? 28 : 24,
+                        fontWeight: FontWeight.w600,
                         color: settingsProvider.isDark
                             ? Colors.white
                             : Colors.black,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: isTablet ? 30 : 20),
                     Expanded(
                       child: ListView.separated(
                         shrinkWrap: true,
@@ -118,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                         separatorBuilder: (context, index) =>
-                            SizedBox(height: 10),
+                            SizedBox(height: isTablet ? 15 : 10),
                         itemCount: 7,
                       ),
                     ),
