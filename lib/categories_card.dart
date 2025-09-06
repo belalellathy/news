@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:news/models/categories_model.dart';
-import 'package:news/providers/settings_provider.dart';
+import 'package:news/shared/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesCard extends StatelessWidget {

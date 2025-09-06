@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:news/providers/settings_provider.dart';
-import 'package:news/theme.dart';
+import 'package:news/shared/providers/settings_provider.dart';
+import 'package:news/shared/theme.dart';
+import 'package:news/shared/widgets/themechange.dart';
 import 'package:provider/provider.dart';
 
 class Homedrawer extends StatelessWidget {
@@ -11,13 +12,20 @@ class Homedrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isTablet = screenWidth > 600;
+    
     return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.5,
+      width: isTablet ? screenWidth * 0.35 : screenWidth * 0.75,
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            height: MediaQuery.of(context).size.height * 0.145,
+            padding: EdgeInsets.symmetric(
+              horizontal: isTablet ? 16 : 8,
+              vertical: isTablet ? 20 : 10,
+            ),
+            height: isTablet ? screenHeight * 0.12 : screenHeight * 0.145,
             decoration: BoxDecoration(
               color: settingsProvider.isDark ? apptheme.white : apptheme.black,
             ),
@@ -25,7 +33,7 @@ class Homedrawer extends StatelessWidget {
               child: Text(
                 "News App",
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: isTablet ? 28 : 24,
                   fontWeight: FontWeight.w700,
                   color: settingsProvider.isDark
                       ? apptheme.black
@@ -35,7 +43,7 @@ class Homedrawer extends StatelessWidget {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.745,
+            height: isTablet ? screenHeight * 0.78 : screenHeight * 0.745,
             decoration: BoxDecoration(
               color: settingsProvider.isDark ? apptheme.black : apptheme.white,
             ),
@@ -63,11 +71,11 @@ class Homedrawer extends StatelessWidget {
                             ? apptheme.white
                             : apptheme.black,
                       ),
-                      SizedBox(width: 12),
+                      SizedBox(width: isTablet ? 16 : 12),
                       Text(
                         "Go to Home",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: isTablet ? 24 : 20,
                           fontWeight: FontWeight.bold,
                           color: settingsProvider.isDark
                               ? apptheme.white
@@ -77,6 +85,31 @@ class Homedrawer extends StatelessWidget {
                     ],
                   ),
                 ),
+                SizedBox(height: isTablet ? 15 : 10),
+                Divider(
+                  color: settingsProvider.isDark
+                      ? apptheme.white
+                      : apptheme.black,
+                  thickness: isTablet ? 2 : 1,
+                ),
+                SizedBox(height: isTablet ? 15 : 10),
+                Column(
+              
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Theme",
+                      style: TextStyle(
+                        fontSize: isTablet ? 24 : 20,
+                        fontWeight: FontWeight.bold,
+                        color: settingsProvider.isDark
+                            ? apptheme.white
+                            : apptheme.black,
+                      ),
+                    ),
+                    SizedBox(height: isTablet ? 15 : 10),
+                    Themechange()
+                  ],
+                )
               ],
             ),
           ),
