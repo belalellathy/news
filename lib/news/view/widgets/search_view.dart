@@ -13,7 +13,7 @@ import 'package:news/shared/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class SearchView extends StatefulWidget {
-   SearchView({super.key});
+ const  SearchView({super.key});
 
   @override
   State<SearchView> createState() => _SearchViewState();
@@ -62,7 +62,7 @@ void initState() {
     setState(() {
     //  _searchQuery = value== "" ? "B" : value;
       _searchQuery =  value;
-      print(_searchQuery);
+     
       _pagingController.refresh();
       _currentPage = 1;
       

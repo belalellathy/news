@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 
 
 class TabItem extends StatelessWidget {
-  TabItem({super.key,  required this.isSelected, required this.source});
-Source source;
-  bool isSelected = false;
+ const TabItem({super.key,  required this.isSelected, required this.source});
+  final Source source;
+  final bool isSelected;
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider=Provider.of<SettingsProvider>(context);

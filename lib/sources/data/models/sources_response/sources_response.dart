@@ -14,9 +14,6 @@ class SourcesResponse {
           .toList(),
     );
   }
-Future getnews() async {
-  
-  
-  }
  
+
 }

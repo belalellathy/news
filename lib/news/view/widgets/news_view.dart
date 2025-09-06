@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:news/news/data/models/news_response/article.dart';
-import 'package:news/news/data/models/news_response/news_response.dart';
+
 import 'package:news/news/view_model/news_view_model.dart';
 import 'package:news/shared/providers/settings_provider.dart';
 import 'package:news/sources/data/models/sources_response/source.dart';
@@ -24,13 +24,16 @@ class NewsView extends StatefulWidget {
 class _NewsViewState extends State<NewsView> {
   SourcesViewModel sourcesViewModel = SourcesViewModel();
   
-int count = 0;
+
   int selectedIndex = 0;
+ late int count;
 
   @override
   void initState() {
     super.initState();
     sourcesViewModel.fetchSources(widget.categoryid);
+    count=0;
+    
    // NewsViewModel newsModel = Provider.of<NewsViewModel>(context, listen: false);
     
     
@@ -113,11 +116,14 @@ int count = 0;
                     } else {
 
                      if(count==0)
-                     { newsModel.getnews(sourcesViewModel.sources[selectedIndex].id!);
+                      {newsModel.getnews(sourcesViewModel.sources[selectedIndex].id!);
+                     //print(newsModel.articles.length);
                      
                      count++;
+                    // print(count);
+                    }
                      
-                     }
+                     
                        
                     
                       List<Article> articles =

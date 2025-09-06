@@ -4,16 +4,16 @@ import 'package:news/shared/providers/settings_provider.dart';
 import 'package:provider/provider.dart';
 
 class CategoriesCard extends StatelessWidget {
-  CategoriesCard({
+ const CategoriesCard({
     super.key,
     required this.categoriesModel,
     this.left,
     this.right,
   });
-  CategoriesModel categoriesModel;
+final  CategoriesModel categoriesModel;
 
-  double? left;
-  double? right;
+  final double? left;
+  final double? right;
   @override
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
