@@ -5,9 +5,9 @@ import 'package:news/shared/widgets/themechange.dart';
 import 'package:provider/provider.dart';
 
 class Homedrawer extends StatelessWidget {
-  Homedrawer({super.key, required this.nothome, required this.onTap});
-  bool nothome;
-  VoidCallback onTap;
+   Homedrawer({super.key, required this.nothome, required this.onTap});
+   bool nothome;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
