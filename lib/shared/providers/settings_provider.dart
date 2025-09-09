@@ -35,13 +35,13 @@ class SettingsProvider with ChangeNotifier {
     notifyListeners();
   }
   bool get isDark {
-    if (themeMode == ThemeMode.system) {
-      // Check the system brightness (requires BuildContext)
-      final brightness = WidgetsBinding.instance.window.platformBrightness;
-      return brightness == Brightness.dark;
-    }
-    return themeMode == ThemeMode.dark;
+  if (themeMode == ThemeMode.system) {
+    final brightness =
+        WidgetsBinding.instance.platformDispatcher.platformBrightness;
+    return brightness == Brightness.dark;
   }
+  return themeMode == ThemeMode.dark;
+}
 
   void changetheme(ThemeMode theme) {
     themeMode = theme;

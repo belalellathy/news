@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: isTablet ? 30 : 20),
                     Expanded(
                       child: ListView.separated(
-                        shrinkWrap: true,
+                      //  shrinkWrap: true,
                         // physics: NeverScrollableScrollPhysics(),
                         itemBuilder: settingsProvider.isDark
                             ? (context, index) => InkWell(

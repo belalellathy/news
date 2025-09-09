@@ -1,12 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news/news/data/models/news_response/article.dart';
+import 'package:news/news/view_model/news_state.dart';
 
 import 'package:news/news/view_model/news_view_model.dart';
 import 'package:news/shared/providers/settings_provider.dart';
 import 'package:news/sources/data/models/sources_response/source.dart';
 import 'package:news/news/view/widgets/news_item.dart';
 import 'package:news/sources/view/widgets/tab_item.dart';
+import 'package:news/sources/view_model/sources_state.dart';
 import 'package:news/sources/view_model/sources_view_model.dart';
 import 'package:news/shared/widgets/errorindicator.dart';
 import 'package:news/shared/widgets/loadingindicator.dart';
@@ -23,6 +26,7 @@ class NewsView extends StatefulWidget {
 
 class _NewsViewState extends State<NewsView> {
   SourcesViewModel sourcesViewModel = SourcesViewModel();
+  NewsViewModel newsModel = NewsViewModel();
   
 
   int selectedIndex = 0;
@@ -33,37 +37,32 @@ class _NewsViewState extends State<NewsView> {
     super.initState();
     sourcesViewModel.fetchSources(widget.categoryid);
     count=0;
-    
-   // NewsViewModel newsModel = Provider.of<NewsViewModel>(context, listen: false);
-    
-    
   }
 
   @override
   Widget build(BuildContext context) {
-    //NewsViewModel newsModel = Provider.of<NewsViewModel>(context,listen: false);
-    //print(newsModel.articles.length);
     
-    return ChangeNotifierProvider(
+    return BlocProvider(
       create: (_) => sourcesViewModel,
       
-      child: Consumer<SourcesViewModel>(
-        builder: (_, sourcesViewModel, __) {
-          // Assuming you have sources list in your view model
-         
-          
-          if(sourcesViewModel.isLoading) {
-            return Loadingindicator();
+      child: BlocBuilder<SourcesViewModel,SourcesState>(
+        builder: (context,state) {
+
+
+          if(state is SourcesLoading) {
+            return const Loadingindicator();
           }
-          else if (sourcesViewModel.error) {
-            return Errorindicator();
+          else if (state is SourcesFailure) {
+            return  Errorindicator(errorMessage: state.error);
           }
           else{
-             List<Source> sources = sourcesViewModel.sources;
-             
-             //newsModel.getnews(sources[selectedIndex].id!);
-           // 
-            
+            state= state as SourcesSuccess;
+             List<Source> sources = state.sources;
+             if(count==0){
+               newsModel.getnews(sources[selectedIndex].id!);
+              count++;
+            }
+
             return Container(
             color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
@@ -77,16 +76,13 @@ class _NewsViewState extends State<NewsView> {
                     dividerColor: Colors.transparent,
                     onTap: (index) {
                       if (selectedIndex != index) {
-                       
-                       // newsModel.getnews(sources[index].id!);
                        count=0;
     
                         setState(() {
                           selectedIndex = index;
                         });
                       }
-                     
-                     
+
                     },
                     
                     tabs: sources
@@ -102,30 +98,17 @@ class _NewsViewState extends State<NewsView> {
                   ),
                 ),
                  Expanded(
-                child: Consumer<NewsViewModel>(
+                child: BlocProvider(
+                  create: (context) => newsModel,
+                  child: BlocBuilder<NewsViewModel,NewsState>(
                   
-                  
-                  builder: (context, newsModel, child) {
-                      
-                 
-                    if (newsModel.isLoading) {
+                  builder: (context,state1) {
+                    if (state1 is NewsLoading) {
 
                       return Loadingindicator();
-                    } else if (newsModel.errorMessage != null) {
-                      return Errorindicator();
-                    } else {
-
-                     if(count==0)
-                      {newsModel.getnews(sourcesViewModel.sources[selectedIndex].id!);
-                     //print(newsModel.articles.length);
-                     
-                     count++;
-                    // print(count);
-                    }
-                     
-                     
-                       
-                    
+                    } else if (state1 is NewsError) {
+                      return Errorindicator(errorMessage: state1.message);
+                    } else if(state1 is Newssucces) {
                       List<Article> articles =
                           newsModel.articles ;
                       return ListView.builder(
@@ -133,8 +116,11 @@ class _NewsViewState extends State<NewsView> {
                             NewsItem(article: articles[index]),
                         itemCount: articles.length,
                       );
-                    } 
+                    } else{
+                      return const SizedBox();
+                    }
                   },
+                  )
                 )
               )
         
