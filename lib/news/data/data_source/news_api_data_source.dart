@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news/news/data/data_source/news_data_source.dart';
 import 'package:news/news/data/models/news_response/article.dart';
-import 'package:news/shared/APIConst.dart';
+import 'package:news/shared/api_const.dart';
 import 'package:news/news/data/models/news_response/news_response.dart';
 class NewsApiDataSource extends NewsDataSource {
 @override

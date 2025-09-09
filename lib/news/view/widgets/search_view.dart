@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 import 'package:news/news/data/models/news_response/article.dart';
@@ -7,6 +7,7 @@ import 'package:news/news/data/models/news_response/article.dart';
 import 'package:news/news/view/widgets/news_item.dart';
 
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:news/news/view_model/news_state.dart';
 import 'package:news/news/view_model/news_view_model.dart';
 
 import 'package:news/shared/providers/settings_provider.dart';
@@ -21,12 +22,13 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   int _currentPage = 1;
+  NewsViewModel newsViewModel =NewsViewModel();
 
   Future<List<Article>> _fetchPage(int pageKey) async {
 
     
   if (_searchQuery.isNotEmpty) {
-    NewsViewModel newsViewModel = Provider.of<NewsViewModel>(context, listen: false);
+    
    await newsViewModel.getnewsforsearch(_searchQuery, pageKey);
    if(newsViewModel.errorMessage!=null){
      throw Exception(newsViewModel.errorMessage);
@@ -45,6 +47,13 @@ class _SearchViewState extends State<SearchView> {
   
   
   @override
+  void dispose() {
+    _pagingController.dispose();
+    _searchController.dispose();
+    
+    super.dispose();
+
+  }
 @override
 void initState() {
   super.initState();
@@ -57,6 +66,7 @@ void initState() {
   },
   );
 }
+
 
   void _onSearchChanged(String value) {
     setState(() {
@@ -76,83 +86,106 @@ void initState() {
   Widget build(BuildContext context) {
     SettingsProvider settingsProvider =
         Provider.of<SettingsProvider>(context);
-
     return Scaffold(
-     
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              controller: _searchController,
-              onChanged: _onSearchChanged,
-              decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search',
-                filled: true,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(16),
-                  borderSide: BorderSide.none,
+      body: BlocProvider(
+        create: (context) => newsViewModel,
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: _searchController,
+                onChanged: _onSearchChanged,
+                decoration: InputDecoration(
+                 
+                  suffixIconColor: settingsProvider.isDark
+                      ? Colors.white
+                      : Colors.black,
+                  prefixIconColor: settingsProvider.isDark
+                      ? Colors.white
+                      : Colors.black,
+                  prefixIcon: Icon(Icons.search),
+                  suffixIcon: IconButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        
+                      },
+                      icon: Icon(Icons.close)),
+                  hintText: 'Search',
+                  hintStyle: TextStyle(
+                    color: settingsProvider.isDark
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                  filled: false,
+                  border: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                    
+                    borderRadius: BorderRadius.circular(16),
+                   
+                  ),
+                ),
+                style: TextStyle(
+                  color: settingsProvider.isDark?Colors.white:Colors.black,
                 ),
               ),
-              style: TextStyle(
-                color: Colors.black,
-              ),
             ),
-          ),
-          Expanded(
-            child: PagingListener(
-              controller: _pagingController,
-            
-              builder: (context, state, fetchNextPage) =>
-                  PagedListView<int, Article>(
-                    
-                state: state,
-                fetchNextPage: fetchNextPage,
-                builderDelegate: PagedChildBuilderDelegate<Article>(
-                  itemBuilder: (context, item, index) =>
-                      NewsItem(article: item),
-                      
-
-                  // Optional indicators:
-
-                  animateTransitions: true,
-                  noItemsFoundIndicatorBuilder: (_) => Center(
-                    child: Text("No articles found.",
-                      style: TextStyle(
-                        color: settingsProvider.isDark
-                            ? Colors.white
-                            : Colors.black,
+            BlocBuilder<NewsViewModel, NewsState>(
+              builder: (context, state) {
+                
+                return Expanded(
+                  child: PagingListener(
+                    controller: _pagingController,
+                    builder: (context, state, fetchNextPage) =>
+                        PagedListView<int, Article>(
+                        
+                    state: state,
+                    fetchNextPage: fetchNextPage,
+                    builderDelegate: PagedChildBuilderDelegate<Article>(
+                      itemBuilder: (context, item, index) =>
+                          NewsItem(article: item),
+                          
+                              
+                      animateTransitions: true,
+                      noItemsFoundIndicatorBuilder: (_) => Center(
+                        child: Text("No articles found.",
+                          style: TextStyle(
+                            color: settingsProvider.isDark
+                                ? Colors.white
+                                : Colors.black,
+                          ),
+                        ),
+                      ),
+                      firstPageErrorIndicatorBuilder: (_) => Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text("Error loading data.",
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
+                            ),
+                            ElevatedButton(
+                              onPressed: _pagingController.refresh,
+                              child: Text("Retry"),
+                            ),
+                          ],
+                        ),
+                      ),
+                      newPageErrorIndicatorBuilder: (_) => Center(
+                        child: ElevatedButton(
+                          onPressed: fetchNextPage,
+                          child: Text("Retry loading more"),
+                        ),
                       ),
                     ),
                   ),
-                  firstPageErrorIndicatorBuilder: (_) => Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("Error loading data.",
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                        ElevatedButton(
-                          onPressed: _pagingController.refresh,
-                          child: Text("Retry"),
-                        ),
-                      ],
-                    ),
-                  ),
-                  newPageErrorIndicatorBuilder: (_) => Center(
-                    child: ElevatedButton(
-                      onPressed: fetchNextPage,
-                      child: Text("Retry loading more"),
-                    ),
-                  ),
-                ),
-              ),
+                                ),
+                );
+              }
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

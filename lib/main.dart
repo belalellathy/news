@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:news/home_screen.dart';
-import 'package:news/news/view_model/news_view_model.dart';
 import 'package:news/shared/providers/settings_provider.dart';
 import 'package:news/shared/theme.dart';
 import 'package:news/news/view/widgets/search_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {
+ 
   runApp(
-    MultiProvider(providers: [
-      ChangeNotifierProvider(
-        create: (_) => SettingsProvider(),
-        
-      ),
-      ChangeNotifierProvider(create: (_) => NewsViewModel())
-    ],
-    child: const MainApp()
-    ),
+    ChangeNotifierProvider(
+      create: (context) => SettingsProvider(),
+      child: const MainApp()),
   );
 }
 

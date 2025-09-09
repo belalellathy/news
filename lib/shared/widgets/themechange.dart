@@ -7,72 +7,70 @@ class Themechange extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final settingsProvider = Provider.of<SettingsProvider>(context);
+
     return Container(
-    
-      margin: EdgeInsets.only(right:  8),
+      margin: const EdgeInsets.only(right: 8),
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         border: Border.all(
-
-          color: Provider.of<SettingsProvider>(context).isDark
-              ? Colors.white
-              : Colors.black,
+          color: settingsProvider.isDark ? Colors.white : Colors.black,
         ),
-        
-       
       ),
       child: DropdownButton(
-      
-       
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         underline: Container(),
-      value: Provider.of<SettingsProvider>(context).themeMode == ThemeMode.light
+        value: settingsProvider.themeMode == ThemeMode.light
             ? "light"
-            : "dark",
-            style: TextStyle(
-              fontSize: 20,
-              
-            ),
-            
-        
-      dropdownColor: Provider.of<SettingsProvider>(context).isDark
-          ? Colors.black
-          : Colors.white,
-          
+            : settingsProvider.themeMode == ThemeMode.dark
+                ? "dark"
+                : "system", // 👈 add system
+        style: const TextStyle(fontSize: 20),
+        dropdownColor:
+            settingsProvider.isDark ? Colors.black : Colors.white,
         items: [
-        DropdownMenuItem(
-      
-           child: Text("Light",
-            style: TextStyle(
-              color: Provider.of<SettingsProvider>(context).isDark
-                  ? Colors.white
-                  : Colors.black,
+          DropdownMenuItem(
+            value: "light",
+            child: Text(
+              "Light",
+              style: TextStyle(
+                color: settingsProvider.isDark ? Colors.white : Colors.black,
+              ),
             ),
-          
           ),
-          value: "light",
-        ),
-        DropdownMenuItem(
-          child: Text("Dark",style: TextStyle(
-            color: Provider.of<SettingsProvider>(context).isDark
-                ? Colors.white
-                : Colors.black,
-          ),),
-          value: "dark",
-        ),
-      ], onChanged: (value) {
-        if (value == "light") {
-          Provider.of<SettingsProvider>(context, listen: false)
-              .changetheme(ThemeMode.light);
-          Provider.of<SettingsProvider>(context, listen: false).saveTheme( ThemeMode.light);
-
-        } else if (value == "dark") {
-          Provider.of<SettingsProvider>(context, listen: false)
-              .changetheme(ThemeMode.dark);
-          Provider.of<SettingsProvider>(context, listen: false).saveTheme(ThemeMode.dark);
-        }
-      }),
+          DropdownMenuItem(
+            value: "dark",
+            child: Text(
+              "Dark",
+              style: TextStyle(
+                color: settingsProvider.isDark ? Colors.white : Colors.black,
+              ),
+            ),
+          ),
+          DropdownMenuItem(
+            value: "system",
+            child: Text(
+              "System",
+              style: TextStyle(
+                color: settingsProvider.isDark ? Colors.white : Colors.black,
+              ),
+            ),
+          ),
+        ],
+        onChanged: (value) {
+          if (value == "light") {
+            settingsProvider.changetheme(ThemeMode.light);
+            settingsProvider.saveTheme(ThemeMode.light);
+          } else if (value == "dark") {
+            settingsProvider.changetheme(ThemeMode.dark);
+            settingsProvider.saveTheme(ThemeMode.dark);
+          } else if (value == "system") {
+            settingsProvider.changetheme(ThemeMode.system);
+            settingsProvider.saveTheme(ThemeMode.system);
+          }
+        },
+      ),
     );
   }
 }

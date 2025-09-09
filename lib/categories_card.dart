@@ -30,7 +30,7 @@ final  CategoriesModel categoriesModel;
           left: left,
 
           child: Container(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.grey,
               borderRadius: BorderRadius.circular(84),
@@ -48,9 +48,9 @@ final  CategoriesModel categoriesModel;
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 10),
+                SizedBox(width: 8),
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
                     color: settingsProvider.isDark
                         ? Colors.black
