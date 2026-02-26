@@ -50,7 +50,7 @@ class _NewsViewState extends State<NewsView> {
 
 
           if(state is SourcesLoading) {
-            return const Loadingindicator();
+            return Center(child: const Loadingindicator());
           }
           else if (state is SourcesFailure) {
             return  Errorindicator(errorMessage: state.error);
@@ -105,7 +105,7 @@ class _NewsViewState extends State<NewsView> {
                   builder: (context,state1) {
                     if (state1 is NewsLoading) {
 
-                      return Loadingindicator();
+                      return Center(child: Loadingindicator());
                     } else if (state1 is NewsError) {
                       return Errorindicator(errorMessage: state1.message);
                     } else if(state1 is Newssucces) {
